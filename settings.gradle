@@ -1,0 +1,3 @@
+include ':product-review-service'
+include ':product-service'
+rootProject.name = 'com.challenge'

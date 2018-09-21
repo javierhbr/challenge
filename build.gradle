@@ -1,0 +1,25 @@
+subprojects {
+
+  apply plugin: 'java'
+  apply plugin: 'eclipse'
+  apply plugin: 'idea'
+  group = 'com.challenge'
+  version = '1.0'
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile ("io.springfox:springfox-swagger2:${swagger2Version}")
+    compile ("io.springfox:springfox-swagger-ui:${swagger2Version}")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+
+  }
+
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+}
+
