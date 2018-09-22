@@ -1,5 +1,6 @@
 package com.challenge.productreviews.integration;
 
+import com.challenge.productreview.ProductReviewServiceApplication;
 import com.challenge.productreview.response.ProductReviewResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductReviewServiceApplication.class)
 @RunWith(SpringRunner.class)
 public class ProductReviewIT {
 
@@ -31,14 +32,15 @@ public class ProductReviewIT {
     @Test
     public void getProductReview_returnsProductReview() throws Exception {
         //Arrange
-
         String productId = "M20324";
+        String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
         //Act
-        ResponseEntity<ProductReviewResponse> productResponse = restTemplate.getForEntity(REVIEW_ENDPOINT+"/"+productId, ProductReviewResponse.class);
+        ResponseEntity<ProductReviewResponse> productResponse = restTemplate.getForEntity(url, ProductReviewResponse.class);
 
         //Assert
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
-//        assertThat(productResponse.getBody().getName()).isEqualTo("prius");
+        Assert.assertTrue(productResponse.getBody().getProductReview()!=null);
+        Assert.assertTrue(productResponse.getBody().getProductReview().getProductId().equals(productId));
 //        assertThat(productResponse.getBody().getType()).isEqualTo("hybrid");
     }
 

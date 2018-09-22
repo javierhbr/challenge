@@ -1,6 +1,5 @@
 package com.challenge.productreview.controller;
 
-import com.challenge.productreview.mapper.ProductReviewMapper;
 import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;

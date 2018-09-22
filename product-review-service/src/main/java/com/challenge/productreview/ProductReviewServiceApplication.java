@@ -26,7 +26,7 @@ public class ProductReviewServiceApplication implements WebMvcConfigurer {
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("com.challenge.productreviews.controller"))
+				.apis(RequestHandlerSelectors.basePackage("com.challenge.productreview.controller"))
 				.paths(PathSelectors.any())
 				.build()
 				.apiInfo(apiInfo());
