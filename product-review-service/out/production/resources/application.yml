@@ -1,7 +1,5 @@
 server:
   port: 9091
-  servlet:
-    path: /product-review
 spring:
   h2:
     console:
@@ -11,3 +9,5 @@ spring:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
+  jackson:
+    default-property-inclusion: non_null
