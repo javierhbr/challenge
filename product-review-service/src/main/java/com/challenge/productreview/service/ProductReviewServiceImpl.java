@@ -8,6 +8,7 @@ import com.challenge.productreview.repository.ProductReviewRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductReviewServiceImpl implements ProductReviewService {
@@ -23,24 +24,42 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     @Override
     public ProductReviewDTO getProductReviewById(String productId) throws ProductReviewNotFoundException {
 
-        ProductReviewEntity  reviewEntity= this.productReviewRepository.findById(productId)
-                .orElseThrow(() -> new ProductReviewNotFoundException("Could not find entity with id: " + productId));
+        ProductReviewEntity  reviewEntity= this.getProductReviewEntityByProductId(productId);
 
         return ProductReviewMapper.ProductReviewEntityToDto(reviewEntity);
     }
 
     @Override
     public ProductReviewDTO createProductReview(ProductReviewDTO reviewDTO) {
-        return null;
+
+        ProductReviewEntity reviewEntity = ProductReviewMapper.ProductReviewDtoToEntity(reviewDTO);
+        reviewEntity = this.productReviewRepository.save(reviewEntity);
+
+        return ProductReviewMapper.ProductReviewEntityToDto(reviewEntity);
     }
 
     @Override
+    @Transactional
     public ProductReviewDTO updateProductReviewById(ProductReviewDTO reviewDTO) throws ProductReviewNotFoundException {
-        return null;
+
+        ProductReviewEntity  reviewEntity= this.getProductReviewEntityByProductId(reviewDTO.getProductId());
+        reviewEntity.setAverageReviewScore(reviewDTO.getAverageScore());
+        reviewEntity.setNumberOfReview(reviewDTO.getNumberOfReview());
+
+        return ProductReviewMapper.ProductReviewEntityToDto(reviewEntity);
     }
 
     @Override
-    public ProductReviewDTO deleteProductReviewById(String productId) throws ProductReviewNotFoundException {
-        return null;
+    public void deleteProductReviewById(String productId) throws ProductReviewNotFoundException {
+
+        this.productReviewRepository.deleteById(productId);
+
+    }
+
+    protected ProductReviewEntity getProductReviewEntityByProductId(String productId) throws ProductReviewNotFoundException {
+        ProductReviewEntity  reviewEntity= this.productReviewRepository.findById(productId)
+                .orElseThrow(() -> new ProductReviewNotFoundException("Could not find entity with id: " + productId));
+
+        return reviewEntity;
     }
 }

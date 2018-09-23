@@ -4,6 +4,7 @@ import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.service.ProductReviewService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -33,15 +35,15 @@ public class ProductReviewController {
         return response;
     }
 
-    @ResponseBody
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ProductReviewResponse postProductReview(@Valid @RequestBody ProductReviewRequest reviewRequest) throws ProductReviewNotFoundException {
         ProductReviewResponse response = new ProductReviewResponse();
         response.setProductReview(productReviewService.createProductReview(reviewRequest.getProductReview()));
         return response;
     }
 
-    @ResponseBody
+
     @PutMapping
     public ProductReviewResponse putProductReview(@Valid @RequestBody ProductReviewRequest reviewRequest) throws ProductReviewNotFoundException {
         ProductReviewResponse response = new ProductReviewResponse();
@@ -49,12 +51,9 @@ public class ProductReviewController {
         return response;
     }
 
-    @ResponseBody
     @DeleteMapping("/{productId}")
-    public ProductReviewResponse deleteProductReview(@Valid @PathVariable("productId") String productId) throws ProductReviewNotFoundException {
-        ProductReviewResponse response = new ProductReviewResponse();
-        response.setProductReview(productReviewService.deleteProductReviewById(productId));
-        return response;
+    public void deleteProductReview(@Valid @PathVariable("productId") String productId) throws ProductReviewNotFoundException {
+             productReviewService.deleteProductReviewById(productId);
     }
 
 }

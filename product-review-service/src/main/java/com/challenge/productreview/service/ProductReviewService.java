@@ -11,6 +11,6 @@ public interface ProductReviewService {
 
     ProductReviewDTO updateProductReviewById(ProductReviewDTO reviewDTO) throws ProductReviewNotFoundException;
 
-    ProductReviewDTO deleteProductReviewById(String productId) throws ProductReviewNotFoundException;
+    void deleteProductReviewById(String productId) throws ProductReviewNotFoundException;
 
 }

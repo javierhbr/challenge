@@ -20,11 +20,20 @@ public class ProductReviewEntity {
 
     @Column(nullable = false, name = "average_review_Score")
     @NotNull(message = "Average score can not be null.") //averageReviewScore
-    private float averageReviewScore;
+    private Float averageReviewScore;
 
     @Column(nullable = false, name = "number_of_reviews")
     @NotNull(message = "number of review can not be null.")
-    private long numberOfReview;
+    private Long numberOfReview;
+
+    public ProductReviewEntity() {
+    }
+
+    public ProductReviewEntity(String productId, Float averageReviewScore, Long numberOfReview) {
+        this.productId = productId;
+        this.averageReviewScore = averageReviewScore;
+        this.numberOfReview = numberOfReview;
+    }
 
     public String getProductId() {
         return productId;
@@ -34,19 +43,19 @@ public class ProductReviewEntity {
         this.productId = productId;
     }
 
-    public float getAverageReviewScore() {
+    public Float getAverageReviewScore() {
         return averageReviewScore;
     }
 
-    public void setAverageReviewScore(float averageReviewScore) {
+    public void setAverageReviewScore(Float averageReviewScore) {
         this.averageReviewScore = averageReviewScore;
     }
 
-    public long getNumberOfReview() {
+    public Long getNumberOfReview() {
         return numberOfReview;
     }
 
-    public void setNumberOfReview(long numberOfReview) {
+    public void setNumberOfReview(Long numberOfReview) {
         this.numberOfReview = numberOfReview;
     }
 }
