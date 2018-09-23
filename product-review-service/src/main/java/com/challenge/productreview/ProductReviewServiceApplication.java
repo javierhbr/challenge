@@ -42,4 +42,6 @@ public class ProductReviewServiceApplication implements WebMvcConfigurer {
 				new Contact("Javier Benavides", "", "javierhbr@gmail.com"),
 				"License of API", "API license URL", Collections.emptyList());
 	}
+
+
 }

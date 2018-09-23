@@ -4,6 +4,8 @@ import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.service.ProductReviewService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,10 @@ import javax.validation.Valid;
 @RequestMapping("review")
 public class ProductReviewController {
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private ProductReviewService productReviewService;
+
 
     public ProductReviewController(ProductReviewService productReviewService) {
         this.productReviewService = productReviewService;
@@ -30,6 +34,7 @@ public class ProductReviewController {
 
     @GetMapping("/{productId}")
     public ProductReviewResponse getProductReview(@Valid @PathVariable("productId") String productId) throws ProductReviewNotFoundException {
+        logger.info("getting review for {}", productId);
         ProductReviewResponse response = new ProductReviewResponse();
         response.setProductReview(productReviewService.getProductReviewById(productId));
         return response;

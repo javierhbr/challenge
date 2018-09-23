@@ -11,3 +11,5 @@ spring:
     show-sql: true
   jackson:
     default-property-inclusion: non_null
+  application:
+    name: product-review
