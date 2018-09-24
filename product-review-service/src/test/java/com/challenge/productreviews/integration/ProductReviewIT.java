@@ -4,6 +4,7 @@ import com.challenge.productreview.ProductReviewServiceApplication;
 import com.challenge.productreview.dto.ProductReviewDTO;
 import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
+import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +39,7 @@ public class ProductReviewIT {
     @Test
     public void getProductReview_returnsProductReview() throws Exception {
         //Arrange
-        String productId = "M20324";
+        String productId = "AC7836";
         String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
         //Act
         ResponseEntity<ProductReviewResponse> productResponse = restTemplate.getForEntity(url, ProductReviewResponse.class);
@@ -66,10 +67,10 @@ public class ProductReviewIT {
     public void postProductReview_returnsProductReview() throws Exception {
         //Arrange
 
-        String productId = "POST000";
+        String productId = "B42000";
         String url = HOST + port + REVIEW_ENDPOINT;
         ProductReviewRequest productReviewRequest = new ProductReviewRequest();
-        productReviewRequest.setProductReview( new ProductReviewDTO(productId, new Float(1), new Long(1)));
+        productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
         //Act
         ResponseEntity<ProductReviewResponse> productResponse =
                 restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
@@ -80,7 +81,10 @@ public class ProductReviewIT {
     @Test
     public void putProductReview_returnsProductReview() throws Exception {
         //Arrange
-        String productId = "B42000";
+
+        // intsertar  uno propio
+
+        String productId = "BB5476";
         Float averageScore = new Float(99);
         Long numberOfReview = new Long(999);
         String url = HOST + port + REVIEW_ENDPOINT;
@@ -105,15 +109,16 @@ public class ProductReviewIT {
 
     @Test
     public void deleteProductReview_returnsReview() throws Exception {
-        //Arrange
 
         String productId = "M20324";
-        String url = HOST+ port + REVIEW_ENDPOINT+"/{productId}";
-        //Act
-        restTemplate.delete(url,productId );
+        String url = HOST+ port + REVIEW_ENDPOINT+"/" +productId;
+        ProductReviewRequest productReviewRequest = new ProductReviewRequest();
+        productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
+        restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
 
-        //Assert
-        ResponseEntity<Integer> productResponse = restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
+        //restTemplate.delete(url);
+
+        ResponseEntity productResponse = restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
 
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
 

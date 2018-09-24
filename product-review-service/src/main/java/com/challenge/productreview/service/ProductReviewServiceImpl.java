@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("productReviewService")
 public class ProductReviewServiceImpl implements ProductReviewService {
 
     private static Logger LOG = LoggerFactory.getLogger(ProductReviewServiceImpl.class);
@@ -25,7 +25,6 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     public ProductReviewDTO getProductReviewById(String productId) throws ProductReviewNotFoundException {
 
         ProductReviewEntity  reviewEntity= this.getProductReviewEntityByProductId(productId);
-
         return ProductReviewMapper.ProductReviewEntityToDto(reviewEntity);
     }
 
@@ -45,7 +44,7 @@ public class ProductReviewServiceImpl implements ProductReviewService {
         ProductReviewEntity  reviewEntity= this.getProductReviewEntityByProductId(reviewDTO.getProductId());
         reviewEntity.setAverageReviewScore(reviewDTO.getAverageScore());
         reviewEntity.setNumberOfReview(reviewDTO.getNumberOfReview());
-
+        this.productReviewRepository.save(reviewEntity);
         return ProductReviewMapper.ProductReviewEntityToDto(reviewEntity);
     }
 
@@ -53,10 +52,9 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     public void deleteProductReviewById(String productId) throws ProductReviewNotFoundException {
 
         this.productReviewRepository.deleteById(productId);
-
     }
 
-    protected ProductReviewEntity getProductReviewEntityByProductId(String productId) throws ProductReviewNotFoundException {
+    private ProductReviewEntity getProductReviewEntityByProductId(String productId) throws ProductReviewNotFoundException {
         ProductReviewEntity  reviewEntity= this.productReviewRepository.findById(productId)
                 .orElseThrow(() -> new ProductReviewNotFoundException("Could not find entity with id: " + productId));
 

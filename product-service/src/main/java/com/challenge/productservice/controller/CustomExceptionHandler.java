@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-
-
 @RestControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -26,9 +24,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMsg  errorMsg = new ErrorMsg(ex.getMessage());
         return handleExceptionInternal(ex, errorMsg,
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
-
     }
-
 
     @ExceptionHandler(ProductResourceException.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -38,6 +34,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMsg  errorMsg = new ErrorMsg(ex.getMessage());
         return handleExceptionInternal(ex, errorMsg,
                 new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-
     }
 }

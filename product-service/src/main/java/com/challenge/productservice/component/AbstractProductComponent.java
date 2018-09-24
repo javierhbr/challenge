@@ -20,7 +20,7 @@ public abstract class AbstractProductComponent<T> {
     @Autowired
     private RestTemplate restTemplate;
 
-    public AbstractProductComponent(Class<T> entityClass) {
+    protected AbstractProductComponent(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
