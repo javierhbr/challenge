@@ -3,8 +3,9 @@ package com.challenge.productservice.service;
 import com.challenge.productservice.component.ProductDetailsComponent;
 import com.challenge.productservice.component.ProductReviewComponent;
 import com.challenge.productservice.domain.product.Product;
-import com.challenge.productservice.domain.review.ProductReview;
+import com.challenge.productservice.domain.review.ProductReviewResponse;
 import com.challenge.productservice.exception.ProductNotFoundException;
+import com.challenge.productservice.exception.ProductReviewNotAvailableException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
 import com.challenge.productservice.response.ProductResponse;
 import org.slf4j.Logger;
@@ -31,14 +32,17 @@ public class ProductServiceImpl implements ProductService{
         logger.debug("getting information for productId:{}", productId);
         ProductResponse response = new ProductResponse();
         //get product details
-        Product product = productDetailsComponent.retrieveProductDetails(productId);
+        Product product = productDetailsComponent.retrieveProductData(productId);
 
         //get product review
         try {
-            ProductReview productReview = productReviewComponent.retrieveProductReview(productId);
-            product.setProductReview(productReview);
+            ProductReviewResponse productReview = productReviewComponent.retrieveProductData(productId);
+            product.setProductReview(productReview.getProductReview());
 
         }catch (ProductReviewNotFoundException ex){
+            response.setMessage(ex.getMessage());
+
+        }catch (ProductReviewNotAvailableException ex) {
             response.setMessage(ex.getMessage());
         }
 
