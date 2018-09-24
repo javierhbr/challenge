@@ -13,7 +13,7 @@ factoryConfiguration.json
 .metadata
 bin/
 tmp/
-*.tmp
+*.tmpexternal.resources.api.endpoint.product-details.cookie
 *.bak
 *.swp
 *~.nib
@@ -122,6 +122,12 @@ cmake-build-*/
 
 # IntelliJ
 out/
+**/out/*
+**/build/*
+product-review-service/build/**
+product-review-service/out/**
+product-service/build/**
+product-service/out/**
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -160,6 +166,7 @@ modules.xml
 ### Java ###
 # Compiled class file
 *.class
+**.class
 
 # Log file
 *.log
