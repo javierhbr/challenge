@@ -4,6 +4,7 @@ import com.challenge.productservice.component.ProductDetailsComponent;
 import com.challenge.productservice.component.ProductReviewComponent;
 import com.challenge.productservice.domain.product.Product;
 import com.challenge.productservice.domain.review.ProductReview;
+import com.challenge.productservice.exception.ProductNotFoundException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
 import com.challenge.productservice.response.ProductResponse;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductResponse getProductById(String productId) {
+    public ProductResponse getProductById(String productId) throws ProductNotFoundException {
 
         logger.debug("getting information for productId:{}", productId);
         ProductResponse response = new ProductResponse();

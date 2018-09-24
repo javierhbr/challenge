@@ -11,5 +11,5 @@ insert into product_review (product_id, average_review_Score, number_of_reviews)
 
 insert into product_review (product_id, average_review_Score, number_of_reviews) values ('BB5476', 7, 7000);
 
-insert into product_review (product_id, average_review_Score, number_of_reviews) values ('B42000', 7.8, 7800 );
+--insert into product_review (product_id, average_review_Score, number_of_reviews) values ('B42000', 7.8, 7800 );
 
