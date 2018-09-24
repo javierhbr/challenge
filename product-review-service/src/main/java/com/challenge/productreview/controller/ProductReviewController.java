@@ -4,6 +4,7 @@ import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.service.ProductReviewService;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,7 @@ public class ProductReviewController {
         this.productReviewService = productReviewService;
     }
 
+    @ApiOperation("Return product review for any valid productId.")
     @GetMapping("/{productId}")
     public ProductReviewResponse getProductReview(@Valid @PathVariable("productId") String productId) throws ProductReviewNotFoundException {
         logger.info("getting review for {}", productId);
@@ -40,6 +42,7 @@ public class ProductReviewController {
         return response;
     }
 
+    @ApiOperation("Create a new product review.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductReviewResponse postProductReview(@Valid @RequestBody ProductReviewRequest reviewRequest) throws ProductReviewNotFoundException {
@@ -48,7 +51,7 @@ public class ProductReviewController {
         return response;
     }
 
-
+    @ApiOperation("Update an existing product review.")
     @PutMapping
     public ProductReviewResponse putProductReview(@Valid @RequestBody ProductReviewRequest reviewRequest) throws ProductReviewNotFoundException {
         ProductReviewResponse response = new ProductReviewResponse();
@@ -56,6 +59,7 @@ public class ProductReviewController {
         return response;
     }
 
+    @ApiOperation("Delete an existing product review.")
     @DeleteMapping("/{productId}")
     public void deleteProductReview(@Valid @PathVariable("productId") String productId) throws ProductReviewNotFoundException {
              productReviewService.deleteProductReviewById(productId);

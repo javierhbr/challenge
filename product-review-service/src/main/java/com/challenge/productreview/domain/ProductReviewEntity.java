@@ -19,7 +19,7 @@ public class ProductReviewEntity {
     private String productId;
 
     @Column(nullable = false, name = "average_review_Score")
-    @NotNull(message = "Average score can not be null.") //averageReviewScore
+    @NotNull(message = "Average score can not be null.")
     private Float averageReviewScore;
 
     @Column(nullable = false, name = "number_of_reviews")
