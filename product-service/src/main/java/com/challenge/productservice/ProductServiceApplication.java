@@ -3,7 +3,7 @@ package com.challenge.productservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -12,7 +12,6 @@ import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
 import java.util.Collections;
 
 @EnableSwagger2
@@ -33,22 +32,21 @@ public class ProductServiceApplication implements WebMvcConfigurer{
 				.apiInfo(apiInfo());
 	}
 
-//	@Override
-//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		registry.addResourceHandler("swagger-ui.html")
-//				.addResourceLocations("classpath:/META-INF/resources/");
-//
-//		registry.addResourceHandler("/webjars/**")
-//				.addResourceLocations("classpath:/META-INF/resources/webjars/");
-//	}
-
 	private ApiInfo apiInfo() {
 		return new ApiInfo(
-				"Challenge Code",
+				"Product Service",
 				"Challenge Code by Javier Benavides",
 				"API BETA",
 				"Terms of service",
 				new Contact("Javier Benavides", "", "javierhbr@gmail.com"),
 				"License of API", "API license URL", Collections.emptyList());
 	}
+
+	@Bean
+	//@LoadBalanced
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+
 }
