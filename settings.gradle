@@ -1,3 +1,4 @@
 include ':product-review-service'
 include ':product-service'
+include ':config-server'
 rootProject.name = 'com.challenge'

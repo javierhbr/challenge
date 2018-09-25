@@ -6,6 +6,15 @@ public class ProductReview {
     private Float averageScore;
     private Long numberOfReview;
 
+    public ProductReview() {
+    }
+
+    public ProductReview(String productId, Float averageScore, Long numberOfReview) {
+        this.productId = productId;
+        this.averageScore = averageScore;
+        this.numberOfReview = numberOfReview;
+    }
+
     public String getProductId() {
         return productId;
     }
