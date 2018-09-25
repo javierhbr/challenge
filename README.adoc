@@ -1,16 +1,53 @@
 
 
 config-server
-http:config-server:8888
+http://config-server:8888
 http://localhost:8888/
 
 Discovery
 discovery-service:8082
+http://discovery-service:8082
 http://localhost:8082/
 
 
 Gateway(Zuul)
 gateway-service:8080
+httogateway-service:8080
 
 
 product-review-service :9091
+
+product-service:9090
+
+
+
+
+
+gradle clean build docker -x test
+
+
+
+JavierGbt:challenge javierbenavides$ docker images
+REPOSITORY                             TAG                 IMAGE ID            CREATED             SIZE
+com.challenge/product-service          latest              9fb492d1d4c8        15 seconds ago      151MB
+com.challenge/product-review-service   latest              95904271d15e        19 seconds ago      164MB
+com.challenge/gateway-service          latest              534d249e090b        24 seconds ago      153MB
+com.challenge/discovery-service        latest              b0ea417a4533        30 seconds ago      162MB
+com.challenge/config-server            latest              0d8a038dee90        37 seconds ago      142MB
+openjdk                                8-jdk-alpine        54ae553cb104        13 days ago         103MB
+JavierGbt:challenge javierbenavides$
+
+
+inside teh root of the directory execute:
+
+docker-compose up -d
+
+docker-compose up --build -d
+
+
+Creating challenge_product-review-service_1 ... done
+Creating challenge_product-service_1        ... done
+Creating challenge_discovery-service_1      ... done
+Creating challenge_config-server_1          ... done
+Creating challenge_gateway-service_1        ... done
+JavierGbt:challenge javierbenavides$

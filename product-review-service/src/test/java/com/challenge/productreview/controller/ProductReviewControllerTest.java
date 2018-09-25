@@ -3,17 +3,23 @@ package com.challenge.productreview.controller;
 import com.challenge.productreview.dto.ProductReviewDTO;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.request.ProductReviewRequest;
+import com.challenge.productreview.security.ProductReviewSecurityConfig;
 import com.challenge.productreview.service.ProductReviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.math.RandomUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,9 +29,12 @@ import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProductReviewController.class)
+@AutoConfigureMockMvc(secure = false)
 public class ProductReviewControllerTest {
 
     private final String ENDPOINT = "/review";
+    private final String HEADER_AUTH = "Authorization";
+    private final String HEADER_TOKEN= "Basic Y2hhbGxlbmdlOmNvZGU=";
 
     @Autowired
     private MockMvc mockMvc;
@@ -40,9 +49,16 @@ public class ProductReviewControllerTest {
 
     @Before
     public void setup() {
+        MockitoAnnotations.initMocks(this);
         JacksonTester.initFields(this, objectMapper);
 
     }
+
+    /*@After
+    public void reset_mocks() {
+        System.out.println("====> reset mock");
+        Mockito.reset(productReviewService);
+    }*/
 
     @Test
     public void getProductReview_returnProductReview() throws Exception {
@@ -55,7 +71,7 @@ public class ProductReviewControllerTest {
         given(productReviewService.getProductReviewById(anyString()))
                 .willReturn(productReviewDTO_step1);
 
-        mockMvc.perform(get(url)).andExpect(status().isOk())
+        mockMvc.perform(get(url).headers(new HttpHeaders())).andExpect(status().isOk())
                 .andExpect(jsonPath("productReview.productId").value(productId))
                 .andExpect(jsonPath("productReview.averageScore").value(averageScore))
                 .andExpect(jsonPath("productReview.numberOfReview").value(numberOfReview));
@@ -86,7 +102,10 @@ public class ProductReviewControllerTest {
         given(productReviewService.createProductReview(any(ProductReviewDTO.class)))
                 .willReturn(productReviewDTO_step1);
 
-        mockMvc.perform(post(ENDPOINT).contentType(MediaType.APPLICATION_JSON_UTF8).content(productReviewRequestJson))
+        mockMvc.perform(post(ENDPOINT)
+                    .header(HEADER_AUTH, HEADER_TOKEN)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(productReviewRequestJson))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("productReview.productId").value(productId))
                 .andExpect(jsonPath("productReview.averageScore").value(averageScore.floatValue()))
@@ -132,6 +151,28 @@ public class ProductReviewControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    //@Test
+    public void putProductReview_returnProductReviewisForbidden() throws Exception {
+
+
+        String productId = "C77999";
+        Float averageScore = RandomUtils.nextFloat();
+        Long numberOfReview = RandomUtils.nextLong();
+        ProductReviewRequest productReviewRequest= new ProductReviewRequest();
+        ProductReviewDTO productReviewDTO_step1 = new ProductReviewDTO(productId, averageScore,  numberOfReview);
+        productReviewRequest.setProductReview(productReviewDTO_step1);
+        final String productReviewRequestJson  =jsonTester.write(productReviewRequest).getJson();;
+
+        given(productReviewService.updateProductReviewById(any(ProductReviewDTO.class)))
+                .willReturn(productReviewDTO_step1);
+
+        mockMvc.perform(put("/review")
+                    //.header(HEADER_AUTH, HEADER_TOKEN)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(productReviewRequestJson))
+                .andExpect(status().isForbidden());
+    }
+
     @Test
     public void deleteProductReview_returnProductReviewDeleted() throws Exception {
 
@@ -139,7 +180,7 @@ public class ProductReviewControllerTest {
         String url = ENDPOINT + "/" +productId;
         Mockito.doNothing().when(productReviewService).deleteProductReviewById(productId);
 
-        mockMvc.perform(delete(url)).andExpect(status().isOk());
+        mockMvc.perform(delete(url).header(HEADER_AUTH, HEADER_TOKEN)).andExpect(status().isOk());
     }
 
     @Test
@@ -148,7 +189,18 @@ public class ProductReviewControllerTest {
         String url = ENDPOINT + "/" +productId;
         Mockito.doThrow(new ProductReviewNotFoundException("Could not find any product review"))
                 .when(productReviewService).deleteProductReviewById(productId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HEADER_AUTH, HEADER_TOKEN);
+        mockMvc.perform(delete(url).headers(headers).contentType(MediaType.APPLICATION_JSON_UTF8)).andExpect(status().isNotFound());
+    }
 
-        mockMvc.perform(delete(url)).andExpect(status().isNotFound());
+    //@Test
+    public void deleteProductReview_returnProductReviewForbidden() throws Exception {
+        String productId = "C00000";
+        String url = ENDPOINT + "/" +productId;
+        Mockito.doThrow(new ProductReviewNotFoundException("Could not find any product review"))
+                .when(productReviewService).deleteProductReviewById(productId);
+
+        mockMvc.perform(delete(url)).andExpect(status().isForbidden());
     }
 }
