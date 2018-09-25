@@ -1,2 +1,16 @@
 
 
+config-server
+http:config-server:8888
+http://localhost:8888/
+
+Discovery
+discovery-service:8082
+http://localhost:8082/
+
+
+Gateway(Zuul)
+gateway-service:8080
+
+
+product-review-service :9091
