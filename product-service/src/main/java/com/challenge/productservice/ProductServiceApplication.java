@@ -3,6 +3,7 @@ package com.challenge.productservice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
@@ -43,9 +44,12 @@ public class ProductServiceApplication implements WebMvcConfigurer{
 	}
 
 	@Bean
-	//@LoadBalanced
 	public RestTemplate restTemplate() {
-		return new RestTemplate();
+		int timeout = 5000;
+		HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+		factory.setConnectTimeout(timeout);
+		factory.setReadTimeout(timeout);
+		return new RestTemplate(factory);
 	}
 
 

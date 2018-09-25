@@ -2,26 +2,45 @@ version: '3'
 
 services:
   config-server:
+    container_name: config_server
     build: ./config-server
     ports:
      - "8888:8888"
+    network_mode: host
 
   discovery-service:
+    container_name: discovery_service
     build: ./discovery-service
     ports:
      - "8082:8082"
+    depends_on:
+      - config-server
+    network_mode: host
 
   gateway-service:
+    container_name: gateway_service
     build: ./gateway-service
     ports:
      - "8080:8080"
+    network_mode: host
+    depends_on:
+      - discovery-service
 
   product-review-service:
+    container_name: product_review_service
     build: ./product-review-service
     ports:
      - "9091:9091"
+    network_mode: host
+    depends_on:
+      - gateway-service
+    network_mode: host
 
   product-service:
+    container_name: product_service
     build: ./product-service
     ports:
      - "9090:9090"
+    depends_on:
+      - gateway-service
+    network_mode: host

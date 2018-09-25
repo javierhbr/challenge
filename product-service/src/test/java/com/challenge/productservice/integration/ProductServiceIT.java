@@ -1,7 +1,8 @@
 package com.challenge.productservice.integration;
 
-import com.challenge.productservice.domain.product.Product;
-import org.junit.Assert;
+import com.challenge.productservice.ProductServiceApplication;
+import com.challenge.productservice.response.ProductResponse;
+import org.hamcrest.core.StringContains;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,11 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.IsNull.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductServiceApplication.class)
 @RunWith(SpringRunner.class)
 public class ProductServiceIT {
 
@@ -21,45 +25,32 @@ public class ProductServiceIT {
 
     @Test
     public void getProduct_returnsProductWithReview() throws Exception {
-        //Arrange
-
         String productId = "M20324";
-        //Act
-        ResponseEntity<Product> productResponse = restTemplate.getForEntity("/product/".concat(productId), Product.class);
 
-        //TODO finish this
-        //Assert
-        Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
-//        assertThat(productResponse.getBody().getName()).isEqualTo("prius");
-//        assertThat(productResponse.getBody().getType()).isEqualTo("hybrid");
+        ResponseEntity<ProductResponse> productResponse = restTemplate.getForEntity("/product/".concat(productId), ProductResponse.class);
+
+        assertThat(HttpStatus.OK, is(productResponse.getStatusCode()));
+        assertThat(productResponse.getBody().getProduct().getId(), is(productId));
+        assertThat(productResponse.getBody().getMessage(), nullValue());
     }
 
     @Test
     public void getProduct_returnsProductWithOutReview() throws Exception {
-        //Arrange
+        String productId = "B42000";
 
-        String productId = "M20324";
-        //Act
-        ResponseEntity<Product> productResponse = restTemplate.getForEntity("/product/".concat(productId), Product.class);
+        ResponseEntity<ProductResponse> productResponse = restTemplate.getForEntity("/product/".concat(productId), ProductResponse.class);
 
-        //TODO finish this
-        //Assert
-        Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
-//        assertThat(productResponse.getBody().getName()).isEqualTo("prius");
-//        assertThat(productResponse.getBody().getType()).isEqualTo("hybrid");
+        assertThat(productResponse.getStatusCode(), is(HttpStatus.OK));
+        assertThat(productResponse.getBody().getProduct().getId(), is(productId));
+        assertThat(productResponse.getBody().getMessage(), StringContains.containsString("Error"));
     }
 
     @Test
     public void getProduct_returnsProductNotFound() throws Exception {
-        //Arrange
+        String productId = "M2032435";
+        ResponseEntity<ProductResponse> productResponse = restTemplate.getForEntity("/product/".concat(productId), ProductResponse.class);
 
-        String productId = "M203245";
-        //Act
-        ResponseEntity<Product> productResponse = restTemplate.getForEntity("/product/".concat(productId), Product.class);
-
-        //TODO finish this
-        //Assert
-        Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.NOT_FOUND));
+        assertThat(productResponse.getStatusCode(), is(HttpStatus.NOT_FOUND));
     }
 
 }

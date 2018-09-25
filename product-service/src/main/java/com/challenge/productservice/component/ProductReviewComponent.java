@@ -3,6 +3,7 @@ package com.challenge.productservice.component;
 import com.challenge.productservice.domain.review.ProductReviewResponse;
 import com.challenge.productservice.exception.ProductReviewNotAvailableException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
+import io.netty.channel.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
+import java.net.SocketTimeoutException;
 
 @Component
 public class ProductReviewComponent extends AbstractProductComponent<ProductReviewResponse> {
@@ -35,6 +37,13 @@ public class ProductReviewComponent extends AbstractProductComponent<ProductRevi
                 logger.error("Error getting product review of {}: cause:{}", productId, ex.getMessage());
                 throw new ProductReviewNotFoundException("Error getting product review of " + productId);
             }
+        }else if (ex.getCause() instanceof SocketTimeoutException) {
+            logger.error("Could not get product details with id:  {}: cause:{}", productId, ex.getMessage());
+            throw new ProductReviewNotAvailableException("Could not get product details with id: " + productId);
+
+        }else if (ex.getCause() instanceof ConnectTimeoutException) {
+            logger.error("Could not get product details with id:  {}: cause:{}", productId, ex.getMessage());
+            throw new ProductReviewNotAvailableException("Could not get product details with id: " + productId);
         }
     }
 
