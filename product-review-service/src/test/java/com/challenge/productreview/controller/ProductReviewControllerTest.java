@@ -3,18 +3,15 @@ package com.challenge.productreview.controller;
 import com.challenge.productreview.dto.ProductReviewDTO;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.request.ProductReviewRequest;
-import com.challenge.productreview.security.ProductReviewSecurityConfig;
 import com.challenge.productreview.service.ProductReviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.math.RandomUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
@@ -53,12 +50,6 @@ public class ProductReviewControllerTest {
         JacksonTester.initFields(this, objectMapper);
 
     }
-
-    /*@After
-    public void reset_mocks() {
-        System.out.println("====> reset mock");
-        Mockito.reset(productReviewService);
-    }*/
 
     @Test
     public void getProductReview_returnProductReview() throws Exception {
