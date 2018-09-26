@@ -56,18 +56,19 @@ public class ProductDetailsComponentTest {
         productDetailsComponent.retrieveProductData(PRODUCT_ID);
     }
 
-    @Test
-    public void retrieveProductDataForProductDetails_returnResourceAccessExceptionAfterSocketTimeoutException() {
-        expectedException.expect(ProductResourceException.class);
-        ReflectionTestUtils.setField(productDetailsComponent, "restTemplate", this.restTemplate.returnSocketTimeoutException);
-
-        productDetailsComponent.retrieveProductData(PRODUCT_ID);
-    }
 
     @Test
     public void retrieveProductDataForProductDetails_returnResourceAccessExceptionAfterConnectTimeoutException() {
         expectedException.expect(ProductResourceException.class);
         ReflectionTestUtils.setField(productDetailsComponent, "restTemplate", this.restTemplate.returnConnectTimeoutException);
+
+        productDetailsComponent.retrieveProductData(PRODUCT_ID);
+    }
+
+    @Test
+    public void retrieveProductDataForProductDetails_returnResourceAccessExceptionAfterSocketTimeoutException() {
+        expectedException.expect(ProductResourceException.class);
+        ReflectionTestUtils.setField(productDetailsComponent, "restTemplate", this.restTemplate.returnSocketTimeoutException);
 
         productDetailsComponent.retrieveProductData(PRODUCT_ID);
     }

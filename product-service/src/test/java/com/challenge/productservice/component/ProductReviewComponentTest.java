@@ -34,7 +34,7 @@ public class ProductReviewComponentTest {
     }
 
     @Test
-    public void retrieveProductDataForPrductReview_returnProductReview() {
+    public void retrieveProductDataForProductReview_returnProductReview() {
         ReflectionTestUtils.setField(productReviewComponent, "restTemplate", this.restTemplate.returnProductReviewRestTemplate );
 
         Object productReviewResponse_return = productReviewComponent.retrieveProductData(PRODUCT_ID);
@@ -43,7 +43,7 @@ public class ProductReviewComponentTest {
     }
 
     @Test
-    public void retrieveProductDataForPrductReview_returnProductReviewNotAvailableException() {
+    public void retrieveProductDataForProductReview_returnProductReviewNotAvailableException() {
         expectedException.expect(ProductReviewNotAvailableException.class);
         ReflectionTestUtils.setField(productReviewComponent, "restTemplate", this.restTemplate.returnResourceAccessException);
 
@@ -51,7 +51,7 @@ public class ProductReviewComponentTest {
     }
 
     @Test
-    public void retrieveProductDataForPrductReview_returnProductNotFoundException() {
+    public void retrieveProductDataForProductReview_returnProductNotFoundException() {
         expectedException.expect(ProductReviewNotFoundException.class);
         ReflectionTestUtils.setField(productReviewComponent, "restTemplate", this.restTemplate.returnProductNotFoundException);
 
@@ -59,7 +59,7 @@ public class ProductReviewComponentTest {
     }
 
     @Test
-    public void retrieveProductDataForPrductReview_returnResourceAccessExceptionAfterSocketTimeoutException() {
+    public void retrieveProductDataForProductReview_returnResourceAccessExceptionAfterSocketTimeoutException() {
         expectedException.expect(ProductReviewNotAvailableException.class);
         ReflectionTestUtils.setField(productReviewComponent, "restTemplate", this.restTemplate.returnSocketTimeoutException);
 
@@ -67,7 +67,7 @@ public class ProductReviewComponentTest {
     }
 
     @Test
-    public void retrieveProductDataForPrductReview_returnResourceAccessExceptionAfterConnectTimeoutException() {
+    public void retrieveProductDataForProductReview_returnResourceAccessExceptionAfterConnectTimeoutException() {
         expectedException.expect(ProductReviewNotAvailableException.class);
         ReflectionTestUtils.setField(productReviewComponent, "restTemplate", this.restTemplate.returnConnectTimeoutException);
 

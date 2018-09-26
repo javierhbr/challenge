@@ -3,7 +3,6 @@ package com.challenge.productservice.component;
 import com.challenge.productservice.domain.review.ProductReviewResponse;
 import com.challenge.productservice.exception.ProductReviewNotAvailableException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +40,7 @@ public class ProductReviewComponent extends AbstractProductComponent<ProductRevi
             logger.error("Could not get product details with id:  {}: cause:{}", productId, ex.getMessage());
             throw new ProductReviewNotAvailableException("Could not get product details with id: " + productId);
 
-        }else if (ex.getCause() instanceof ConnectTimeoutException) {
+        }else {
             logger.error("Could not get product details with id:  {}: cause:{}", productId, ex.getMessage());
             throw new ProductReviewNotAvailableException("Could not get product details with id: " + productId);
         }

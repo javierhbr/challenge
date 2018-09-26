@@ -14,8 +14,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+
 
 /**
  *  This class contain all the mocks for RestTemplate.exchange method used by AbstractProductComponent class
@@ -63,22 +64,22 @@ public class RestTemplateUtilsForTest {
 
     };
 
-    public RestTemplate returnSocketTimeoutException = new RestTemplate(){
-        @Override
-        public <T> ResponseEntity<T> exchange(String url, HttpMethod method,
-                                              HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables)
-                throws RestClientException {
-            throw new RestClientException(StringUtils.EMPTY,new SocketTimeoutException());
-        }
-
-    };
-
     public RestTemplate returnConnectTimeoutException = new RestTemplate(){
         @Override
         public <T> ResponseEntity<T> exchange(String url, HttpMethod method,
                                               HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables)
                 throws RestClientException {
             throw new RestClientException(StringUtils.EMPTY,new ConnectTimeoutException());
+        }
+
+    };
+
+    public RestTemplate returnSocketTimeoutException = new RestTemplate(){
+        @Override
+        public <T> ResponseEntity<T> exchange(String url, HttpMethod method,
+                                              HttpEntity<?> requestEntity, Class<T> responseType, Object... uriVariables)
+                throws RestClientException {
+            throw new RestClientException(StringUtils.EMPTY,new SocketTimeoutException());
         }
 
     };
