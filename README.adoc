@@ -23,24 +23,28 @@ product-service:9090
 
 
 
-gradle clean build docker -x test
+gradle clean build -x test
 
+
+docker-compose build
 
 
 JavierGbt:challenge javierbenavides$ docker images
-REPOSITORY                             TAG                 IMAGE ID            CREATED             SIZE
-com.challenge/product-service          latest              9fb492d1d4c8        15 seconds ago      151MB
-com.challenge/product-review-service   latest              95904271d15e        19 seconds ago      164MB
-com.challenge/gateway-service          latest              534d249e090b        24 seconds ago      153MB
-com.challenge/discovery-service        latest              b0ea417a4533        30 seconds ago      162MB
-com.challenge/config-server            latest              0d8a038dee90        37 seconds ago      142MB
-openjdk                                8-jdk-alpine        54ae553cb104        13 days ago         103MB
-JavierGbt:challenge javierbenavides$
+REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
+product-service          latest              7edcd2278400        3 seconds ago       151MB
+product-review-service   latest              e01e81684b3d        6 seconds ago       166MB
+gateway-service          latest              2d9d6af4aa41        9 seconds ago       153MB
+discovery-service        latest              607181ff2559        11 seconds ago      162MB
+config-server            latest              6901802f36a3        13 seconds ago      142MB
+openjdk                  8-jdk-alpine        54ae553cb104        2 weeks ago         103MB
 
+
+
+docker-compose up -d 
 
 inside teh root of the directory execute:
 
-docker-compose up -d
+
 
 docker-compose up --build -d
 
