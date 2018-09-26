@@ -9,7 +9,7 @@ import com.challenge.productservice.exception.ProductNotFoundException;
 import com.challenge.productservice.exception.ProductResourceException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
 import com.challenge.productservice.response.ProductResponse;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

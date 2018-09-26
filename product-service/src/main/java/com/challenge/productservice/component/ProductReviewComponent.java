@@ -3,7 +3,7 @@ package com.challenge.productservice.component;
 import com.challenge.productservice.domain.review.ProductReviewResponse;
 import com.challenge.productservice.exception.ProductReviewNotAvailableException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
-import io.netty.channel.ConnectTimeoutException;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

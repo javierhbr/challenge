@@ -23,6 +23,10 @@ public class ProductServiceIT {
 
     private TestRestTemplate restTemplate;
 
+    /**
+     * Plese Run product-review-service first to execute this test.
+     * @throws Exception
+     */
     @Test
     public void getProduct_returnsProductWithReview() throws Exception {
         String productId = "M20324";
@@ -34,6 +38,10 @@ public class ProductServiceIT {
         assertThat(productResponse.getBody().getMessage(), nullValue());
     }
 
+    /**
+     * Plese Run product-review-service first to execute this test.
+     * @throws Exception
+     */
     @Test
     public void getProduct_returnsProductWithOutReview() throws Exception {
         String productId = "B42000";

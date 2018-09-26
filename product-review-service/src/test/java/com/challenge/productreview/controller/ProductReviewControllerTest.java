@@ -5,7 +5,7 @@ import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.service.ProductReviewService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

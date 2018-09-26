@@ -2,8 +2,7 @@ package com.challenge.productreview.mapper;
 
 import com.challenge.productreview.domain.ProductReviewEntity;
 import com.challenge.productreview.dto.ProductReviewDTO;
-import org.apache.commons.lang.math.RandomUtils;
-import org.hamcrest.core.IsNull;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;

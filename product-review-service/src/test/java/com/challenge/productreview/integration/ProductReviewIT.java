@@ -4,7 +4,7 @@ import com.challenge.productreview.ProductReviewServiceApplication;
 import com.challenge.productreview.dto.ProductReviewDTO;
 import com.challenge.productreview.request.ProductReviewRequest;
 import com.challenge.productreview.response.ProductReviewResponse;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

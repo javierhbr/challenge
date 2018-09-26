@@ -5,7 +5,7 @@ import com.challenge.productreview.dto.ProductReviewDTO;
 import com.challenge.productreview.exception.ProductReviewNotFoundException;
 import com.challenge.productreview.mapper.ProductReviewMapper;
 import com.challenge.productreview.repository.ProductReviewRepository;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
