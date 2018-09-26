@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  challenge-network:
+    driver: bridge
+
+services:
+  product-review-service:
+    container_name: product-review-service
+    image: product-review-service
+    build: ./product-review-service
+    ports:
+     - "9091:9091"
+    networks:
+      - challenge-network
+
+  product-service:
+    container_name: product-service
+    image: product-service
+    build: ./product-service
+    ports:
+     - "9090:9090"
+    depends_on:
+      - product-review-service
+    networks:
+      - challenge-network
+    links:
+      - product-review-service:product-review-service
