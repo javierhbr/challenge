@@ -11,14 +11,8 @@ services:
     build: ./product-review-service
     ports:
      - "9091:9091"
-    depends_on:
-      - gateway-service
     networks:
       - challenge-network
-    links:
-      - config-server:config-server
-      - gateway-service:gateway-service
-      - discovery-service:discovery-service
 
   product-service:
     container_name: product-service
@@ -27,11 +21,8 @@ services:
     ports:
      - "9090:9090"
     depends_on:
-      - gateway-service
+      - product-review-service
     networks:
       - challenge-network
     links:
-      - config-server:config-server
-      - gateway-service:gateway-service
-      - discovery-service:discovery-service
       - product-review-service:product-review-service

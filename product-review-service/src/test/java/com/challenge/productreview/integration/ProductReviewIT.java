@@ -22,21 +22,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductReviewServiceApplication.class)
-@RunWith(SpringRunner.class)
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductReviewServiceApplication.class)
+//@RunWith(SpringRunner.class)
 public class ProductReviewIT {
 
-    @Autowired
+//    @Autowired
     private TestRestTemplate restTemplate;
 
-    @LocalServerPort
+//    @LocalServerPort
     private int port;
 
     private final String HOST = "http://localhost:";
 
     private final String REVIEW_ENDPOINT = "/review";
 
-    @Test
+//    @Test
     public void getProductReview_returnsProductReview() throws Exception {
         String productId = "AC7836";
         String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
@@ -48,7 +48,7 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getBody().getProductReview().getProductId().equals(productId));
     }
 
-    @Test
+//    @Test
     public void getProductReview_returnsReviewNotFound() throws Exception {
         String productId = "M00000";
         String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
@@ -58,7 +58,7 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.NOT_FOUND));
     }
 
-    @Test
+//    @Test
     public void postProductReview_returnsProductReview() throws Exception {
         String productId = "B42000";
         String url = HOST + port + REVIEW_ENDPOINT;
@@ -71,7 +71,7 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.CREATED));
     }
 
-    @Test
+//    @Test
     public void putProductReview_returnsProductReview() throws Exception {
         String productId = "BB5476";
         Float averageScore = new Float(99);
@@ -92,7 +92,7 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getBody().getProductReview().getNumberOfReview().equals(numberOfReview));
     }
 
-    @Test
+//    @Test
     public void deleteProductReview_returnsReview() throws Exception {
         String productId = "M20324";
         String url = HOST+ port + REVIEW_ENDPOINT+"/" +productId;
