@@ -1,6 +1,3 @@
 include ':product-review-service'
 include ':product-service'
-//include ':config-server'
-//include ':discovery-service'
-//include ':gateway-service'
 rootProject.name = 'com.challenge'

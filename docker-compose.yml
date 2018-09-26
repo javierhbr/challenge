@@ -5,16 +5,7 @@ networks:
     driver: bridge
 
 services:
-  config-server:
-    container_name: config-server
-    image: config-server
-    build: ./config-server
-    ports:
-      - "8888:8888"
-    networks:
-      - challenge-network
-
- product-review-service:
+  product-review-service:
     container_name: product-review-service
     image: product-review-service
     build: ./product-review-service
