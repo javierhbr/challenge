@@ -73,8 +73,6 @@ public class ProductReviewIT {
 
     @Test
     public void putProductReview_returnsProductReview() throws Exception {
-        // intsertar  uno propio
-
         String productId = "BB5476";
         Float averageScore = new Float(99);
         Long numberOfReview = new Long(999);

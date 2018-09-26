@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,9 +24,12 @@ import static org.mockito.BDDMockito.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProductReviewController.class)
+@AutoConfigureMockMvc(secure = false)
 public class ProductReviewControllerTest {
 
     private final String ENDPOINT = "/review";
+    private final String HEADER_AUTH = "Authorization";
+    private final String HEADER_TOKEN= "Basic Y2hhbGxlbmdlOmNvZGU=";
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,7 +45,6 @@ public class ProductReviewControllerTest {
     @Before
     public void setup() {
         JacksonTester.initFields(this, objectMapper);
-
     }
 
     @Test
@@ -52,6 +55,7 @@ public class ProductReviewControllerTest {
         Long numberOfReview = RandomUtils.nextLong();
         String url = ENDPOINT + "/" +productId;
         ProductReviewDTO productReviewDTO_step1 = new ProductReviewDTO(productId, averageScore,  numberOfReview);
+
         given(productReviewService.getProductReviewById(anyString()))
                 .willReturn(productReviewDTO_step1);
 
