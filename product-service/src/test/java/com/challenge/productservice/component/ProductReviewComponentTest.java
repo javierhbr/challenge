@@ -1,7 +1,6 @@
 package com.challenge.productservice.component;
 
 import com.challenge.productservice.domain.review.ProductReviewResponse;
-import com.challenge.productservice.exception.ProductResourceException;
 import com.challenge.productservice.exception.ProductReviewNotAvailableException;
 import com.challenge.productservice.exception.ProductReviewNotFoundException;
 import org.junit.Before;
