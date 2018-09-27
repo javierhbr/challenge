@@ -3,6 +3,9 @@ version: '3'
 networks:
   challenge-network:
     driver: bridge
+  challenge-network-external:
+    external: true
+
 
 services:
   product-review-service:
@@ -14,6 +17,7 @@ services:
     networks:
       - challenge-network
 
+
   product-service:
     container_name: product-service
     image: product-service
@@ -24,5 +28,9 @@ services:
       - product-review-service
     networks:
       - challenge-network
-    links:
+      - challenge-network-external
+    external_links:
       - product-review-service:product-review-service
+
+#    links:
+#      - product-review-service:product-review-service
