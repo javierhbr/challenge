@@ -1,4 +1,4 @@
 include ':product-review-service'
 include ':product-service'
-include ':product-it'
+//include ':product-it'
 rootProject.name = 'com.challenge'

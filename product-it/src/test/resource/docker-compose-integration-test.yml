@@ -6,18 +6,18 @@ networks:
 
 services:
   product-review-service:
-    container_name: product-review-service
+#    container_name: product-review-service
     image: product-review-service
-    build: ./product-review-service
+    build: ../../../../product-review-service
     ports:
      - "9091:9091"
     networks:
       - challenge-network
 
   product-service:
-    container_name: product-service
+#    container_name: product-service
     image: product-service
-    build: ./product-service
+    build: ../../../../product-service
     ports:
      - "9090:9090"
     depends_on:

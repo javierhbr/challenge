@@ -19,24 +19,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.Arrays;
 
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductReviewServiceApplication.class)
-//@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProductReviewServiceApplication.class)
+@RunWith(SpringRunner.class)
 public class ProductReviewIT {
 
-//    @Autowired
+    @Autowired
     private TestRestTemplate restTemplate;
 
-//    @LocalServerPort
+    @LocalServerPort
     private int port;
 
     private final String HOST = "http://localhost:";
 
     private final String REVIEW_ENDPOINT = "/review";
+    private final String AUTH_USER = "challenge";
+    private final String AUTH_PWD = "code";
 
-//    @Test
+    @Test
     public void getProductReview_returnsProductReview() throws Exception {
         String productId = "AC7836";
         String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
@@ -48,7 +51,7 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getBody().getProductReview().getProductId().equals(productId));
     }
 
-//    @Test
+    @Test
     public void getProductReview_returnsReviewNotFound() throws Exception {
         String productId = "M00000";
         String url = HOST + port + REVIEW_ENDPOINT + "/" + productId;
@@ -58,20 +61,31 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.NOT_FOUND));
     }
 
-//    @Test
+    @Test
     public void postProductReview_returnsProductReview() throws Exception {
         String productId = "B42000";
         String url = HOST + port + REVIEW_ENDPOINT;
         ProductReviewRequest productReviewRequest = new ProductReviewRequest();
         productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
 
-        ResponseEntity<ProductReviewResponse> productResponse =
-                restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
+        ResponseEntity<ProductReviewResponse> productResponse = restTemplate
+                .withBasicAuth(AUTH_USER,AUTH_PWD)
+                .postForEntity(url, productReviewRequest, ProductReviewResponse.class);
 
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.CREATED));
     }
 
-//    @Test
+    @Test(expected = ResourceAccessException.class)
+    public void postProductReview_returns401() throws Exception {
+        String productId = "B42000";
+        String url = HOST + port + REVIEW_ENDPOINT;
+        ProductReviewRequest productReviewRequest = new ProductReviewRequest();
+        productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
+
+        restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
+    }
+
+    @Test
     public void putProductReview_returnsProductReview() throws Exception {
         String productId = "BB5476";
         Float averageScore = new Float(99);
@@ -83,7 +97,9 @@ public class ProductReviewIT {
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<ProductReviewRequest> reviewRequestHttpEntity = new HttpEntity<>(productReviewRequest, headers);
 
-        ResponseEntity<ProductReviewResponse> productResponse = restTemplate.exchange(url, HttpMethod.PUT, reviewRequestHttpEntity, ProductReviewResponse.class);
+        ResponseEntity<ProductReviewResponse> productResponse = restTemplate
+                .withBasicAuth(AUTH_USER,AUTH_PWD)
+                .exchange(url, HttpMethod.PUT, reviewRequestHttpEntity, ProductReviewResponse.class);
 
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
         Assert.assertTrue(productResponse.getBody().getProductReview()!=null);
@@ -92,7 +108,22 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getBody().getProductReview().getNumberOfReview().equals(numberOfReview));
     }
 
-//    @Test
+    @Test(expected = ResourceAccessException.class)
+    public void putProductReview_returns401() throws Exception {
+        String productId = "BB5476";
+        Float averageScore = new Float(99);
+        Long numberOfReview = new Long(999);
+        String url = HOST + port + REVIEW_ENDPOINT;
+        ProductReviewRequest productReviewRequest = new ProductReviewRequest();
+        productReviewRequest.setProductReview( new ProductReviewDTO(productId, averageScore, numberOfReview));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<ProductReviewRequest> reviewRequestHttpEntity = new HttpEntity<>(productReviewRequest, headers);
+
+        restTemplate.exchange(url, HttpMethod.PUT, reviewRequestHttpEntity, ProductReviewResponse.class);
+    }
+
+    @Test
     public void deleteProductReview_returnsReview() throws Exception {
         String productId = "M20324";
         String url = HOST+ port + REVIEW_ENDPOINT+"/" +productId;
@@ -100,9 +131,22 @@ public class ProductReviewIT {
         productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
         restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
 
-        ResponseEntity productResponse = restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
+        ResponseEntity productResponse = restTemplate
+                .withBasicAuth(AUTH_USER,AUTH_PWD)
+                .exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
 
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
+    }
+
+    @Test(expected = ResourceAccessException.class)
+    public void deleteProductReview_return401() throws Exception {
+        String productId = "M20334";
+        String url = HOST+ port + REVIEW_ENDPOINT+"/" +productId;
+        ProductReviewRequest productReviewRequest = new ProductReviewRequest();
+        productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
+        restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
+
+        restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
 
     }
 }

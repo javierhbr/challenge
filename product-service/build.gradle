@@ -37,6 +37,13 @@ dependencies {
 	testCompile("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
 }
 
+test {
+	useJUnit {
+		excludeCategories 'com.challenge.productservice.integration.ProductServiceIT'
+	}
+}
+
+
 docker {
 	dependsOn build
 	name "${bootJar.baseName}"
