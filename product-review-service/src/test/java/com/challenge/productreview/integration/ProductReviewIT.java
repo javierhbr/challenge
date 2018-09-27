@@ -138,15 +138,15 @@ public class ProductReviewIT {
         Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.OK));
     }
 
-    @Test(expected = ResourceAccessException.class)
+    @Test
     public void deleteProductReview_return401() throws Exception {
         String productId = "M20334";
         String url = HOST+ port + REVIEW_ENDPOINT+"/" +productId;
         ProductReviewRequest productReviewRequest = new ProductReviewRequest();
         productReviewRequest.setProductReview( new ProductReviewDTO(productId, RandomUtils.nextFloat(), RandomUtils.nextLong()));
-        restTemplate.postForEntity(url, productReviewRequest, ProductReviewResponse.class);
 
-        restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, Integer.class, productId);
+        ResponseEntity productResponse= restTemplate.exchange(url, HttpMethod.DELETE, HttpEntity.EMPTY, String.class, productId);
 
+        Assert.assertTrue(productResponse.getStatusCode().equals(HttpStatus.UNAUTHORIZED));
     }
 }
